@@ -1,0 +1,145 @@
+% --------------------------------------------
+% EJEMPLOS DE CONSULTAS (Red semántica)
+% --------------------------------------------
+
+% Ejemplo 1: ¿Qué platillos son salados y de maíz?
+% ?- recomendar_platillo(salado, maiz, _, Platillo).
+
+% Ejemplo 2: ¿Qué danzas usan el tunkul y son rápidas?
+% ?- recomendar_danza(rapido, tunkul, _, Danza).
+
+% Ejemplo 3: Obtener descripción de un elemento
+% ?- obtener_info(panuchos, Descripcion).
+
+% Ejemplo 4: Listar todos los platillos
+% ?- listar_elementos(platillo).
+
+-----------------------------------------------------------
+CONSULTAS EJEMPLO PARA LA BASE DE CONOCIMIENTOS MAYAS
+
+1. Recomendar platillos salados con maíz:
+   ?- recomendar_platillo(salado, maiz, _, Platillo).
+   
+   Resultado esperado:
+   Platillo = panuchos ;
+   Platillo = salbutes.
+
+2. Recomendar danzas rápidas con flauta:
+   ?- recomendar_danza(rapido, flauta, _, Danza).
+   
+   Resultado esperado:
+   Danza = la_danza_de_los_pájaros.
+
+3. Obtener información sobre el pozol:
+   ?- obtener_info(pozol, Descripcion).
+   
+   Resultado esperado:
+   Descripcion = 'Bebida refrescante de maíz y cacao'.
+
+4. Listar todas las danzas:
+   ?- listar_elementos(danza).
+   
+   Resultado esperado:
+   la_cabeza_de_cochino
+   la_jarana
+   la_danza_de_los_venados
+   la_danza_de_los_pájaros
+
+5. Recomendar platillo ceremonial agridulce:
+   ?- recomendar_platillo(agridulce, _, ceremonial, Platillo).
+   
+   Resultado esperado:
+   Platillo = mukbil_pollo.
+
+   /*******************************
+ * CONSULTAS GENERALES *
+ *******************************/
+
+% Listar todos los elementos culturales
+?- elemento_cultural(Nombre, Categoria, _).
+
+% Listar solo platillos
+?- elemento_cultural(Nombre, platillo, _).
+
+% Listar solo danzas
+?- elemento_cultural(Nombre, danza, _).
+
+/*******************************
+ * CONSULTAS SOBRE PLATILLOS *
+ *******************************/
+
+% Platillos por sabor específico
+?- elemento_cultural(Nombre, platillo, Atributos), member(sabor(dulce), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(sabor(salado), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(sabor(picante), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(sabor(agridulce), Atributos).
+
+% Platillos por ingrediente principal
+?- elemento_cultural(Nombre, platillo, Atributos), member(ingrediente_principal(maiz), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(ingrediente_principal(cerdo), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(ingrediente_principal(pollo), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(ingrediente_principal(venado), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(ingrediente_principal(frijol), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(ingrediente_principal(calabaza), Atributos).
+
+% Platillos por ocasión
+?- elemento_cultural(Nombre, platillo, Atributos), member(ocasion(festivo), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(ocasion(diario), Atributos).
+?- elemento_cultural(Nombre, platillo, Atributos), member(ocasion(ceremonial), Atributos).
+
+/*******************************
+ * CONSULTAS SOBRE DANZAS *
+ *******************************/
+
+% Danzas por ritmo
+?- elemento_cultural(Nombre, danza, Atributos), member(ritmo(rapido), Atributos).
+?- elemento_cultural(Nombre, danza, Atributos), member(ritmo(lento), Atributos).
+?- elemento_cultural(Nombre, danza, Atributos), member(ritmo(moderado), Atributos).
+
+% Danzas por instrumento
+?- elemento_cultural(Nombre, danza, Atributos), member(instrumento(tunkul), Atributos).
+?- elemento_cultural(Nombre, danza, Atributos), member(instrumento(flauta), Atributos).
+?- elemento_cultural(Nombre, danza, Atributos), member(instrumento(tambor), Atributos).
+?- elemento_cultural(Nombre, danza, Atributos), member(instrumento(caracol), Atributos).
+
+% Danzas por vestimenta
+?- elemento_cultural(Nombre, danza, Atributos), member(vestimenta(huipil), Atributos).
+?- elemento_cultural(Nombre, danza, Atributos), member(vestimenta(calzon), Atributos).
+?- elemento_cultural(Nombre, danza, Atributos), member(vestimenta(penacho), Atributos).
+
+/************************************
+ * CONSULTAS CON REGLAS DE RECOMENDACIÓN *
+ ************************************/
+
+% Recomendación de platillos con múltiples criterios
+?- recomendar_platillo(dulce, maiz, diario, Platillo).
+?- recomendar_platillo(salado, pollo, festivo, Platillo).
+?- recomendar_platillo(picante, _, _, Platillo).
+
+% Recomendación de danzas con múltiples criterios
+?- recomendar_danza(rapido, flauta, penacho, Danza).
+?- recomendar_danza(moderado, tambor, huipil, Danza).
+?- recomendar_danza(_, caracol, _, Danza).
+
+/************************************
+ * CONSULTAS DE INFORMACIÓN DETALLADA *
+ ************************************/
+
+% Obtener descripción de un elemento específico
+?- obtener_info(panuchos, Descripcion).
+?- obtener_info(la_jarana, Descripcion).
+
+% Ver todos los atributos de un elemento
+?- elemento_cultural(pozol, platillo, Atributos).
+?- elemento_cultural(la_danza_de_los_venados, danza, Atributos).
+
+/************************************
+ * CONSULTAS ESPECIALES *
+ ************************************/
+
+% Encontrar elementos que compartan características
+?- elemento_cultural(X, _, Atributos), member(ingrediente_principal(maiz), Atributos).
+?- elemento_cultural(X, _, Atributos), member(instrumento(flauta), Atributos).
+
+% Búsqueda por descripción (texto parcial)
+?- elemento_cultural(Nombre, _, Atributos), member(descripcion(Desc)), sub_string(Desc, _, _, _, 'cerdo'), !.
